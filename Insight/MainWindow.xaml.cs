@@ -30,9 +30,11 @@ namespace Insight
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            timeline.ClearEvents();
         }
+
+
     }
 }
