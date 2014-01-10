@@ -32,7 +32,17 @@ namespace Insight
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            timeline.ClearEvents();
+            if (hourTimeBand.TimelineWindowSize == 20)
+            {
+                hourTimeBand.TimelineWindowSize = 5;
+                timeline.RefreshEvents();
+            }
+            else
+            {
+                hourTimeBand.TimelineWindowSize = 20;
+                timeline.RefreshEvents();
+            }
+
         }
 
 
