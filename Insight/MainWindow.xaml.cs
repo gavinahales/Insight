@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TimelineLibrary;
 
 namespace Insight
 {
@@ -30,20 +31,51 @@ namespace Insight
 
         }
 
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
         {
-            if (hourTimeBand.TimelineWindowSize == 20)
-            {
-                hourTimeBand.TimelineWindowSize = 5;
-                timeline.RefreshEvents();
-            }
-            else
-            {
-                hourTimeBand.TimelineWindowSize = 20;
-                timeline.RefreshEvents();
-            }
-
+            timeline.Zoom(true);
         }
+
+        private void btnTimelineZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            timeline.Zoom(false);
+        }
+
+        private void btnTimelineZoomReset_Click(object sender, RoutedEventArgs e)
+        {
+            hourTimeBand.TimelineWindowSize = 20;
+            timeline.RefreshEvents();
+        }
+
+        private void btnTimelineReload_Click(object sender, RoutedEventArgs e)
+        {
+            timeline.Reload();
+        }
+
+        
+        
+        //BUG: This event handler has a horrible habit of repeating itself. 10 message boxes telling you what the ID is, nice...
+        //This is DIRECTLY linked to how many times the Reload method has been called. May have to use ResetEvents.
+        //Tried to use ClearEvents first, does not solve problem.
+        private void timeline_SelectionChanged(object sender, EventArgs e)
+        {
+            TimelineEvent timeevent;
+
+            if (timeline.SelectedTimelineEvents.Count != 0)
+            {
+
+                timeevent = timeline.SelectedTimelineEvents[0];
+
+                if (timeevent.Id != "")
+                {
+                    MessageBox.Show("This event has an ID defined and at runtime could pull in additional information. ID is: " + timeevent.Id);
+                }
+            }
+        }
+
+        
+
+        
 
 
     }
