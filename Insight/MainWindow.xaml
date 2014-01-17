@@ -35,6 +35,7 @@
                     Content="Reset Zoom"
                     Click="btnTimelineZoomReset_Click"
                     Margin="2"
+                    IsEnabled="False"
                     />
 
                 <Button
@@ -55,10 +56,9 @@
             </Grid.RowDefinitions>
             <UserControl 
             xmlns:timeline="clr-namespace:TimelineLibrary;assembly=TimelineLibrary"
-            xmlns:timelineEx="clr-namespace:TimelineEx;assembly=TimelineExLib"
             Height="500"  Grid.Row="0">
 
-                <timelineEx:TimelineTrayEx
+                <timeline:TimelineTray
                 x:Name="timeline"
                 Height="500"
                 Grid.Row="0"
@@ -69,7 +69,6 @@
                 CurrentDateTime="06/01/2006"
                 ImmediateDisplay="False"
                 SelectionChanged="timeline_SelectionChanged"
-                EditMode="True"
                 >
 
                     <Grid.RowDefinitions>
@@ -78,11 +77,11 @@
                         <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
 
-                    <timelineEx:TimelineTrayEx.Urls>
+                    <timeline:TimelineTray.Urls>
                         <timeline:UriInfo Url="http://localhost:8080/example.xml" />
-                    </timelineEx:TimelineTrayEx.Urls>
+                    </timeline:TimelineTray.Urls>
 
-                    <timelineEx:TimelineBandEx
+                    <timeline:TimelineBand
                         x:Name="hourTimeBand"
                         Grid.Row="0"
                         IsMainBand="True"
@@ -90,9 +89,10 @@
                         HorizontalAlignment="Stretch"
                         TimelineWindowSize="20"
                         MaxEventHeight="250"
+                        
                    />
 
-                    <timelineEx:TimelineBandEx
+                    <timeline:TimelineBand
                     Grid.Row="1"
                     Height="60"
                     HorizontalAlignment="Stretch"
@@ -101,7 +101,7 @@
                     MaxEventHeight="4"
                     />
 
-                    <timelineEx:TimelineBandEx
+                    <timeline:TimelineBand
                     Grid.Row="2"
                     Height="60"
                     HorizontalAlignment="Stretch"
@@ -112,7 +112,7 @@
 
 
 
-                </timelineEx:TimelineTrayEx>
+                </timeline:TimelineTray>
 
 
 
