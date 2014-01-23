@@ -35,7 +35,6 @@
                     Content="Reset Zoom"
                     Click="btnTimelineZoomReset_Click"
                     Margin="2"
-                    IsEnabled="False"
                     />
 
                 <Button
@@ -64,9 +63,9 @@
                 Grid.Row="0"
                 CalendarType="gregorian"
                 HorizontalAlignment="Stretch"
-                MinDateTime="01/01/2006"
-                MaxDateTime="01/01/2007"
-                CurrentDateTime="06/01/2006"
+                MinDateTime="01/01/2005"
+                MaxDateTime="01/01/2006"
+                CurrentDateTime="06/01/2005"
                 ImmediateDisplay="False"
                 SelectionChanged="timeline_SelectionChanged"
                 >
@@ -77,10 +76,6 @@
                         <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
 
-                    <timeline:TimelineTray.Urls>
-                        <timeline:UriInfo Url="http://localhost:8080/example.xml" />
-                    </timeline:TimelineTray.Urls>
-
                     <timeline:TimelineBand
                         x:Name="hourTimeBand"
                         Grid.Row="0"
@@ -88,7 +83,7 @@
                         ItemSourceType="hours"
                         HorizontalAlignment="Stretch"
                         TimelineWindowSize="20"
-                        MaxEventHeight="250"
+                        MaxEventHeight="20"
                         
                    />
 

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TimelineLibrary;
+using System.Xml.Linq;
 
 namespace Insight
 {
@@ -24,11 +25,15 @@ namespace Insight
         public MainWindow()
         {
             InitializeComponent();
+
+            //Load in event data
+            XDocument input = XDocument.Load("insight.xml");
+            timeline.ResetEvents(input);
         }
 
         private void timeline_Initialized(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
@@ -43,7 +48,7 @@ namespace Insight
 
         private void btnTimelineZoomReset_Click(object sender, RoutedEventArgs e)
         {
-            hourTimeBand.TimelineWindowSize = 20;
+            hourTimeBand.MaxEventHeight = 255;
             timeline.RefreshEvents();
         }
 
