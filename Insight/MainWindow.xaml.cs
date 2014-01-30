@@ -39,6 +39,9 @@ namespace Insight
         private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
         {
             timeline.Zoom(true);
+            monthTimeBand.ClearEvents();
+            monthTimeBand.DisplayEvents();
+            
         }
 
         private void btnTimelineZoomOut_Click(object sender, RoutedEventArgs e)

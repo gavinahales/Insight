@@ -63,9 +63,9 @@
                 Grid.Row="0"
                 CalendarType="gregorian"
                 HorizontalAlignment="Stretch"
-                MinDateTime="01/01/2005"
-                MaxDateTime="01/01/2006"
-                CurrentDateTime="06/01/2005"
+                MinDateTime="01/01/2010"
+                MaxDateTime="01/01/2014"
+                CurrentDateTime="06/01/2012"
                 ImmediateDisplay="False"
                 SelectionChanged="timeline_SelectionChanged"
                 >
@@ -97,6 +97,7 @@
                     />
 
                     <timeline:TimelineBand
+                    x:Name="monthTimeBand"
                     Grid.Row="2"
                     Height="60"
                     HorizontalAlignment="Stretch"
