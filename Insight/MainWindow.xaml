@@ -63,9 +63,9 @@
                 Grid.Row="0"
                 CalendarType="gregorian"
                 HorizontalAlignment="Stretch"
-                MinDateTime="01/01/2010"
-                MaxDateTime="01/01/2014"
-                CurrentDateTime="06/01/2012"
+                MinDateTime="01/01/2004"
+                MaxDateTime="01/01/2006"
+                CurrentDateTime="06/01/2005"
                 ImmediateDisplay="False"
                 SelectionChanged="timeline_SelectionChanged"
                 >
