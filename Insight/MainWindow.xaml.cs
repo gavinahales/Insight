@@ -39,8 +39,6 @@ namespace Insight
         private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
         {
             timeline.Zoom(true);
-            monthTimeBand.ClearEvents();
-            monthTimeBand.DisplayEvents();
             
         }
 
@@ -51,7 +49,6 @@ namespace Insight
 
         private void btnTimelineZoomReset_Click(object sender, RoutedEventArgs e)
         {
-            hourTimeBand.MaxEventHeight = 255;
             timeline.RefreshEvents();
         }
 
