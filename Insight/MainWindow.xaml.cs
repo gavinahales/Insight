@@ -29,6 +29,8 @@ namespace Insight
             //Load in event data
             XDocument input = XDocument.Load("insight.xml");
             timeline.ResetEvents(input);
+            timeline.StylusSystemGesture+=timeline_StylusSystemGesture;
+            
         }
 
         private void timeline_Initialized(object sender, EventArgs e)
@@ -75,6 +77,21 @@ namespace Insight
                 {
                     MessageBox.Show("This event has an ID defined and at runtime could pull in additional information. ID is: " + timeevent.Id);
                 }
+            }
+        }
+
+        void timeline_StylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        {
+            this.Title = e.SystemGesture.ToString();
+            switch (e.SystemGesture)
+            {
+                case SystemGesture.TwoFingerTap:
+                    timeline.Zoom(true);
+                    break;
+
+                case SystemGesture.Flick:
+                    timeline.Zoom(false); 
+                    break;
             }
         }
 

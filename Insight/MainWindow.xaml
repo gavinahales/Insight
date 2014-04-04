@@ -44,22 +44,57 @@
                     Click="btnTimelineReload_Click"
                     Margin="2"
                     />
+                
+                <TextBox
+                    x:Name="txtSearch"
+                    Height="25"
+                    Margin="2,20,2,1"
+                 />
+                
+                <Button
+                    x:Name="btnSearch"
+                    Height="30"
+                    Content="Search"
+                    Margin="2,2,2,20"
+                 />
+                
+                <Label
+                    Content="Show These Events:"
+                />
+
+                <ScrollViewer
+                    Height="120"
+                    Margin="2">
+
+                    <StackPanel>
+
+                        <CheckBox
+                            x:Name="chkEXIF"
+                            Content="EXIF"
+                            IsChecked="True"
+                         />
+                        
+
+                    </StackPanel>
+
+                </ScrollViewer>
+
             </StackPanel>
 
         </Grid>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="500"/>
-                <RowDefinition Height="100" />
+                <RowDefinition Height="700"/>
+                <RowDefinition Height="10" />
             </Grid.RowDefinitions>
             <UserControl 
             xmlns:timeline="clr-namespace:TimelineLibrary;assembly=TimelineLibrary"
-            Height="500"  Grid.Row="0">
+            Height="700"  Grid.Row="0">
 
                 <timeline:TimelineTray
                 x:Name="timeline"
-                Height="500"
+                Height="700"
                 Grid.Row="0"
                 CalendarType="gregorian"
                 HorizontalAlignment="Stretch"
@@ -67,7 +102,7 @@
                 MaxDateTime="01/01/2006"
                 CurrentDateTime="06/01/2005"
                 ImmediateDisplay="False"
-                SelectionChanged="timeline_SelectionChanged"
+                SelectionChanged="timeline_SelectionChanged" VerticalAlignment="Top"
                 >
 
                     <Grid.RowDefinitions>
