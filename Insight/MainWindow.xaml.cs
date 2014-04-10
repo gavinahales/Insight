@@ -22,6 +22,10 @@ namespace Insight
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private List<TimelineEvent> timelineEvents;
+        private String currentSearch;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,19 +33,20 @@ namespace Insight
             //Load in event data
             XDocument input = XDocument.Load("insight.xml");
             timeline.ResetEvents(input);
-            timeline.StylusSystemGesture+=timeline_StylusSystemGesture;
-            
+            timelineEvents = timeline.TimelineEvents;
+            timeline.StylusSystemGesture += timeline_StylusSystemGesture;
+
         }
 
         private void timeline_Initialized(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
         {
             timeline.Zoom(true);
-            
+
         }
 
         private void btnTimelineZoomOut_Click(object sender, RoutedEventArgs e)
@@ -59,8 +64,7 @@ namespace Insight
             timeline.Reload();
         }
 
-        
-        
+
         //BUG: This event handler has a horrible habit of repeating itself. 10 message boxes telling you what the ID is, nice...
         //This is DIRECTLY linked to how many times the Reload method has been called. May have to use ResetEvents.
         //Tried to use ClearEvents first, does not solve problem. Detaching, reloading and reattaching event handler does not work.
@@ -90,14 +94,74 @@ namespace Insight
                     break;
 
                 case SystemGesture.Flick:
-                    timeline.Zoom(false); 
+                    timeline.Zoom(false);
                     break;
             }
         }
 
-        
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            currentSearch = txtSearch.Text;
 
-        
+            List<TimelineEvent> searchevents = new List<TimelineEvent>();
+
+            if (txtSearch.Text == "")
+            {
+                timeline.ResetEvents(timelineEvents);
+            }
+
+            else
+            {
+
+                foreach (TimelineEvent timeevent in timelineEvents)
+                {
+                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()))
+                    {
+                        searchevents.Add(timeevent);
+                    }
+                }
+
+                timeline.ResetEvents(searchevents);
+            }
+        }
+
+        private void refineTimeline()
+        {
+
+            List<TimelineEvent> refineEvents = new List<TimelineEvent>();
+
+            if (currentSearch == "")
+            {
+                timeline.ResetEvents(timelineEvents);
+            }
+
+            else
+            {
+
+                foreach (TimelineEvent timeevent in timelineEvents)
+                {
+                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()) && !isEventExcluded(timeevent))
+                    {
+                        refineEvents.Add(timeevent);
+                    }
+                }
+
+                timeline.ResetEvents(refineEvents);
+            }
+
+        }
+
+        private bool isEventExcluded(TimelineEvent timeEvent)
+        {
+            String eventPrefix = timeEvent.Id.Substring(0, 7);
+
+            if (chkEXIF.IsChecked==false && eventPrefix == "autexif")
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
     }

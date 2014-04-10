@@ -55,7 +55,7 @@
                     x:Name="btnSearch"
                     Height="30"
                     Content="Search"
-                    Margin="2,2,2,20"
+                    Margin="2,2,2,20" Click="btnSearch_Click"
                  />
                 
                 <Label
