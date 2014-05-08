@@ -73,7 +73,25 @@
                             Content="EXIF"
                             IsChecked="True"
                          />
-                        
+
+                        <CheckBox
+                            x:Name="chkWebHistory"
+                            Content="Web History"
+                            IsChecked="True"
+                         />
+
+                        <CheckBox
+                            x:Name="chkAttachedDevices"
+                            Content="Attached Devices"
+                            IsChecked="True"
+                         />
+
+                        <CheckBox
+                            x:Name="chkInstalledProgs"
+                            Content="Installed Software"
+                            IsChecked="True"
+                         />
+
 
                     </StackPanel>
 

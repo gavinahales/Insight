@@ -34,7 +34,13 @@ namespace Insight
             XDocument input = XDocument.Load("insight.xml");
             timeline.ResetEvents(input);
             timelineEvents = timeline.TimelineEvents;
+
+            //Event Handler Bindings
             timeline.StylusSystemGesture += timeline_StylusSystemGesture;
+            chkAttachedDevices.Click += refineTimeline;
+            chkEXIF.Click += refineTimeline;
+            chkInstalledProgs.Click += refineTimeline;
+            chkWebHistory.Click += refineTimeline;
 
         }
 
@@ -108,6 +114,8 @@ namespace Insight
             if (txtSearch.Text == "")
             {
                 timeline.ResetEvents(timelineEvents);
+
+                refineTimeline();
             }
 
             else
@@ -122,17 +130,27 @@ namespace Insight
                 }
 
                 timeline.ResetEvents(searchevents);
+
+                refineTimeline();
             }
         }
 
-        private void refineTimeline()
+        void refineTimeline(object sender = null, RoutedEventArgs e = null)
         {
 
             List<TimelineEvent> refineEvents = new List<TimelineEvent>();
 
             if (currentSearch == "")
             {
-                timeline.ResetEvents(timelineEvents);
+                foreach (TimelineEvent timeevent in timelineEvents)
+                {
+                    if (!isEventExcluded(timeevent))
+                    {
+                        refineEvents.Add(timeevent);
+                    }
+                }
+
+                timeline.ResetEvents(refineEvents);
             }
 
             else
@@ -153,14 +171,29 @@ namespace Insight
 
         private bool isEventExcluded(TimelineEvent timeEvent)
         {
-            String eventPrefix = timeEvent.Id.Substring(0, 7);
+            String eventPrefix = timeEvent.Id.Substring(0, 5);
 
-            if (chkEXIF.IsChecked==false && eventPrefix == "autexif")
+            if (chkEXIF.IsChecked==false && eventPrefix == "autex")
             {
                 return true;
             }
+            else if (chkAttachedDevices.IsChecked == false && eventPrefix == "autad")
+            {
+                return true;
+            }
+            else if (chkInstalledProgs.IsChecked == false && eventPrefix == "autip")
+            {
+                return true;
+            }
+            else if (chkWebHistory.IsChecked == false && eventPrefix == "autwh")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
-            return false;
         }
 
 
