@@ -31,7 +31,20 @@ namespace Insight
             InitializeComponent();
 
             //Load in event data
-            XDocument input = XDocument.Load("insight.xml");
+            //Error handler in case data file does not exist
+
+            XDocument input = null;
+
+            try
+            {
+                input = XDocument.Load("insight.xml");
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("The dataset file could not be found. Please contact the developer.", "Dataset Missing", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(0);
+            }
+
             timeline.ResetEvents(input);
             timelineEvents = timeline.TimelineEvents;
 
