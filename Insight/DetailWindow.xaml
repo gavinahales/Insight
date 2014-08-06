@@ -1,0 +1,42 @@
+﻿<Window x:Class="Insight.DetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DetailWindow" Height="500" Width="700">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="415*"/>
+            <ColumnDefinition Width="277*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Background="LightGoldenrodYellow">
+            <TextBlock>
+                Item Details
+            </TextBlock>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="33*"/>
+                <RowDefinition Height="14*"/>
+            </Grid.RowDefinitions>
+
+
+            <Grid Grid.Row ="0" Background="LightGreen">
+                <TextBlock>
+                Image Preview
+                </TextBlock>
+            </Grid>
+
+
+            <Grid Grid.Row="1" Background="AliceBlue">
+                <StackPanel>
+                    <TextBlock>
+                        Open Item Buttons
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+
+    </Grid>
+
+    </Grid>
+</Window>
