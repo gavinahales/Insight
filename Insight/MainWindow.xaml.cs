@@ -98,7 +98,8 @@ namespace Insight
 
                 if (timeevent.Id != "")
                 {
-                    MessageBox.Show("This event has an ID defined and at runtime could pull in additional information. ID is: " + timeevent.Id);
+                    DetailWindow d = new DetailWindow();
+                    d.Show();
                 }
             }
         }
