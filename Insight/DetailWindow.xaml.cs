@@ -23,5 +23,13 @@ namespace Insight
         {
             InitializeComponent();
         }
+
+        public DetailWindow(String id, String link, String accessed)
+        {
+            InitializeComponent();
+            lblAccessed.Content = accessed;
+            lblLink.Content = link;
+            lblEventType.Content = "Unknown";
+        }
     }
 }

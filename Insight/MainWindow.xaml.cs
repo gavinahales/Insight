@@ -98,7 +98,7 @@ namespace Insight
 
                 if (timeevent.Id != "")
                 {
-                    DetailWindow d = new DetailWindow();
+                    DetailWindow d = new DetailWindow(timeevent.Id, timeevent.Link, timeevent.StartDate.ToShortDateString() + " " + timeevent.StartDate.ToShortTimeString());
                     d.Show();
                 }
             }
