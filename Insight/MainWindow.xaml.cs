@@ -84,7 +84,7 @@ namespace Insight
         }
 
 
-        //BUG: This event handler has a horrible habit of repeating itself. 10 message boxes telling you what the ID is, nice...
+        //BUG: This event handler has a horrible habit of repeating itself. 10 message boxes telling you what the ID is.
         //This is DIRECTLY linked to how many times the Reload method has been called. May have to use ResetEvents.
         //Tried to use ClearEvents first, does not solve problem. Detaching, reloading and reattaching event handler does not work.
         private void timeline_SelectionChanged(object sender, EventArgs e)
