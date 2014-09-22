@@ -91,9 +91,19 @@ namespace Insight
         {
             Uri uri = new Uri(@"X:" + filepath);
 
-            BitmapImage image = new BitmapImage(uri);
+            try
+            {
+                BitmapImage image = new BitmapImage(uri);
+                return image;
+            }
+            catch (System.Net.WebException)
+            {
+                //If file not found, fail silently
+                return null;
+            }
+            
 
-            return image;
+            
         }
         
 

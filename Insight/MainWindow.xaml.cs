@@ -24,7 +24,6 @@ namespace Insight
     {
 
         private List<TimelineEvent> timelineEvents;
-        private String currentSearch;
 
         public MainWindow()
         {
@@ -78,6 +77,9 @@ namespace Insight
             timeline.RefreshEvents();
         }
 
+
+        //!!! Probably not needed. Leads to duplicate event info boxes. Remove??
+        //Change to manually reload the XML file. Saves relaunching the application.
         private void btnTimelineReload_Click(object sender, RoutedEventArgs e)
         {
             timeline.Reload();
@@ -121,46 +123,35 @@ namespace Insight
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            currentSearch = txtSearch.Text;
-
-            List<TimelineEvent> searchevents = new List<TimelineEvent>();
-
-            if (txtSearch.Text == "")
-            {
-                timeline.ResetEvents(timelineEvents);
-
-                refineTimeline();
-            }
-
-            else
-            {
-
-                foreach (TimelineEvent timeevent in timelineEvents)
-                {
-                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()) || timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
-                    {
-                        searchevents.Add(timeevent);
-                    }
-                    else if (timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
-                    {
-                        searchevents.Add(timeevent);
-                    }
-                    else if (timeevent.Link.ToLower().Contains(txtSearch.Text.ToLower()))
-                    {
-                        searchevents.Add(timeevent);
-                    }
-                }
-
-                timeline.ResetEvents(searchevents);
-
-                refineTimeline();
-            }
+            refineTimeline();
         }
 
-        void refineTimeline(object sender = null, RoutedEventArgs e = null)
+        private bool matchesSearch(TimelineEvent timeevent)
+        {
+                if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()))
+                {
+                    return true;
+                }
+                else if (timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
+                {
+                    return true;
+                }
+                else if (timeevent.Link.ToLower().Contains(txtSearch.Text.ToLower()))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+
+        private void refineTimeline(object sender = null, RoutedEventArgs e = null)
         {
 
             List<TimelineEvent> refineEvents = new List<TimelineEvent>();
+
+            String currentSearch = txtSearch.Text;
 
             if (currentSearch == "")
             {
@@ -180,7 +171,7 @@ namespace Insight
 
                 foreach (TimelineEvent timeevent in timelineEvents)
                 {
-                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()) && !isEventExcluded(timeevent))
+                    if (matchesSearch(timeevent) && !isEventExcluded(timeevent))
                     {
                         refineEvents.Add(timeevent);
                     }
@@ -215,6 +206,11 @@ namespace Insight
             {
                 return false;
             }
+
+        }
+
+        private void btnCustomEvents_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 
