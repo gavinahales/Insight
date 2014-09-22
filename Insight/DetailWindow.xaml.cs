@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Drawing;
+using TimelineLibrary;
 
 namespace Insight
 {
@@ -19,19 +21,13 @@ namespace Insight
     /// </summary>
     public partial class DetailWindow : Window
     {
-        public DetailWindow()
-        {
-            InitializeComponent();
-        }
-
-        //Bit of a stupid way to parameterise this constructor. Why not just pass over entire event object and then strip out the rquired info in this method? Would ease any extensions.
-        public DetailWindow(String id, String link, String accessed)
+        public DetailWindow(TimelineEvent timeEvent)
         {
             InitializeComponent();
 
-            String eventType = null;
+            String eventType = timeEvent.Id;
 
-            switch (id.ToLower().Substring(0,5))
+            switch (eventType.ToLower().Substring(0, 5))
             {
                 case "autwh":
                     eventType = "Web History (Autopsy)";
@@ -48,13 +44,58 @@ namespace Insight
                 default:
                     eventType = "Unknown";
                     break;
-                    
-
             }
 
-            lblAccessed.Content = accessed;
-            lblLink.Content = link;
+            lblAccessed.Content = "Not Implemented";
+            lblLink.Content = timeEvent.Link;
             lblEventType.Content = eventType;
+
+            //Load preview image
+            if (timeEvent.Id.ToLower().Substring(0,5) == "autex")
+            {
+                String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
+                if (extension == ".jpg" || extension == "jpeg")
+                {
+                    imgPreview.Source = getImage(timeEvent.Link);
+                }
+                else
+                {
+                    //What to do if it isnt an image
+                }
+            }
+
+            //Allow loading local images from web history events.
+            else if (timeEvent.Id.ToLower().Substring(0,5) == "autwh")
+            {
+                String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
+                if (extension == ".jpg" || extension == "jpeg")
+                {
+                    String filepath = timeEvent.Link.Substring(4);
+                    imgPreview.Source = getImage(filepath);
+                }
+                else
+                {
+                    //What to do if it isnt an image
+                }
+            }
+
         }
+
+
+        private void OpenContent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private BitmapImage getImage(string filepath)
+        {
+            Uri uri = new Uri(@"X:" + filepath);
+
+            BitmapImage image = new BitmapImage(uri);
+
+            return image;
+        }
+        
+
     }
 }

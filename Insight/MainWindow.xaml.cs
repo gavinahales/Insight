@@ -98,7 +98,7 @@ namespace Insight
 
                 if (timeevent.Id != "")
                 {
-                    DetailWindow d = new DetailWindow(timeevent.Id, timeevent.Link, timeevent.StartDate.ToShortDateString() + " " + timeevent.StartDate.ToShortTimeString());
+                    DetailWindow d = new DetailWindow(timeevent);
                     d.Show();
                 }
             }
@@ -137,7 +137,15 @@ namespace Insight
 
                 foreach (TimelineEvent timeevent in timelineEvents)
                 {
-                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()))
+                    if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()) || timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
+                    {
+                        searchevents.Add(timeevent);
+                    }
+                    else if (timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
+                    {
+                        searchevents.Add(timeevent);
+                    }
+                    else if (timeevent.Link.ToLower().Contains(txtSearch.Text.ToLower()))
                     {
                         searchevents.Add(timeevent);
                     }
