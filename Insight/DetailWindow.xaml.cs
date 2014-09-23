@@ -89,6 +89,8 @@ namespace Insight
 
         private BitmapImage getImage(string filepath)
         {
+            filepath = Uri.UnescapeDataString(filepath);
+
             Uri uri = new Uri(@"X:" + filepath);
 
             try
@@ -96,7 +98,7 @@ namespace Insight
                 BitmapImage image = new BitmapImage(uri);
                 return image;
             }
-            catch (System.Net.WebException)
+            catch (Exception)
             {
                 //If file not found, fail silently
                 return null;
