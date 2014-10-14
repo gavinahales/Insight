@@ -46,7 +46,7 @@ namespace Insight
                     break;
             }
 
-            lblAccessed.Content = "Not Implemented";
+            lblAccessed.Content = (String)(timeEvent.StartDate.ToShortDateString() + timeEvent.StartDate.ToShortTimeString());
             lblLink.Content = timeEvent.Link;
             lblEventType.Content = eventType;
 

@@ -47,15 +47,24 @@ namespace Insight
             timeline.ResetEvents(input);
             timelineEvents = timeline.TimelineEvents;
 
+            calculateDateRange();
+            dpMinDate.SelectedDate = timeline.MinDateTime;
+            dpMaxDate.SelectedDate = timeline.MaxDateTime;
+
             //Event Handler Bindings
             timeline.StylusSystemGesture += timeline_StylusSystemGesture;
             chkAttachedDevices.Click += refineTimeline;
             chkEXIF.Click += refineTimeline;
             chkInstalledProgs.Click += refineTimeline;
             chkWebHistory.Click += refineTimeline;
+            dpMinDate.SelectedDateChanged += dpMinDate_SelectedDateChanged;
+            dpMaxDate.SelectedDateChanged += dpMaxDate_SelectedDateChanged;
+
+            
 
         }
 
+        #region Event Handlers
         private void timeline_Initialized(object sender, EventArgs e)
         {
 
@@ -126,24 +135,67 @@ namespace Insight
             refineTimeline();
         }
 
+        void dpMaxDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpMaxDate.SelectedDate < dpMinDate.SelectedDate)
+            {
+                MessageBox.Show("End date cannot be before start date.", "Invalid Date Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpMaxDate.SelectedDate = timeline.MaxDateTime;
+            }
+            else
+            {
+                timeline.MaxDateTime = (DateTime)dpMaxDate.SelectedDate;
+                timeline.RefreshEvents();
+            }
+        }
+
+        void dpMinDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpMinDate.SelectedDate > dpMaxDate.SelectedDate)
+            {
+                MessageBox.Show("Start date cannot be after end date.", "Invalid Date Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpMinDate.SelectedDate = timeline.MinDateTime;
+            }
+            else
+            {
+                timeline.MaxDateTime = (DateTime)dpMaxDate.SelectedDate;
+                timeline.RefreshEvents();
+            }
+        }
+
+        private void btnResetDateRange_Click(object sender, RoutedEventArgs e)
+        {
+            calculateDateRange();
+            dpMinDate.SelectedDate = timeline.MinDateTime;
+            dpMaxDate.SelectedDate = timeline.MaxDateTime;
+            timeline.RefreshEvents();
+        }
+
+        private void btnCustomEvents_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
         private bool matchesSearch(TimelineEvent timeevent)
         {
-                if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()))
-                {
-                    return true;
-                }
-                else if (timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
-                {
-                    return true;
-                }
-                else if (timeevent.Link.ToLower().Contains(txtSearch.Text.ToLower()))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+            if (timeevent.Title.ToLower().Contains(txtSearch.Text.ToLower()))
+            {
+                return true;
+            }
+            else if (timeevent.Description.ToLower().Contains(txtSearch.Text.ToLower()))
+            {
+                return true;
+            }
+            else if (timeevent.Link.ToLower().Contains(txtSearch.Text.ToLower()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void refineTimeline(object sender = null, RoutedEventArgs e = null)
@@ -182,6 +234,7 @@ namespace Insight
 
         }
 
+        //Edit this method to implement new event type searches
         private bool isEventExcluded(TimelineEvent timeEvent)
         {
             String eventPrefix = timeEvent.Id.Substring(0, 5);
@@ -209,8 +262,16 @@ namespace Insight
 
         }
 
-        private void btnCustomEvents_Click(object sender, RoutedEventArgs e)
+        private void calculateDateRange()
         {
+            timeline.MinDateTime = timelineEvents[0].StartDate;
+            timeline.MaxDateTime = timelineEvents[0].StartDate;
+
+            foreach (TimelineEvent item in timelineEvents)
+            {
+                if (item.StartDate < timeline.MinDateTime) { timeline.MinDateTime = item.StartDate; }
+                if (item.StartDate > timeline.MaxDateTime) {timeline.MaxDateTime = item.StartDate;}
+            }
 
         }
 
