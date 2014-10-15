@@ -158,7 +158,7 @@ namespace Insight
             }
             else
             {
-                timeline.MaxDateTime = (DateTime)dpMaxDate.SelectedDate;
+                timeline.MinDateTime = (DateTime)dpMinDate.SelectedDate;
                 timeline.RefreshEvents();
             }
         }
