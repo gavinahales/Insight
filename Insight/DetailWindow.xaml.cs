@@ -41,6 +41,9 @@ namespace Insight
                 case "autex":
                     eventType = "EXIF Metadata (Autopsy)";
                     break;
+                case "auttm":
+                    eventType = "File Type Mismatch";
+                    break;
                 default:
                     eventType = "Unknown";
                     break;

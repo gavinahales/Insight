@@ -73,7 +73,7 @@
                         <CheckBox
                             x:Name="chkEXIF"
                             Content="EXIF Metadata"
-                            IsChecked="True" Background="#FFF06868"
+                            IsChecked="True" Background="#FFFB6018"
                          />
 
                         <CheckBox
@@ -92,6 +92,12 @@
                             x:Name="chkInstalledProgs"
                             Content="Installed Software"
                             IsChecked="True" Background="#FF00A400"
+                         />
+
+                        <CheckBox
+                            x:Name="chkFileTypeMismatch"
+                            Content="File Type Mismatches"
+                            IsChecked="True" Background="#FFA40000"
                          />
 
 
