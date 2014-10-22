@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Drawing;
 using TimelineLibrary;
+using System.IO;
 
 namespace Insight
 {
@@ -57,13 +58,18 @@ namespace Insight
             if (timeEvent.Id.ToLower().Substring(0,5) == "autex")
             {
                 String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
-                if (extension == ".jpg" || extension == "jpeg")
+                switch (extension)
                 {
-                    imgPreview.Source = getImage(timeEvent.Link);
-                }
-                else
-                {
-                    //What to do if it isnt an image
+                    case ".jpg":
+                    case "jpeg":
+                    case ".png":
+                    case ".bmp":
+                    case ".gif":
+                        imgPreview.Source = getImage(timeEvent.Link);
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
@@ -71,15 +77,21 @@ namespace Insight
             else if (timeEvent.Id.ToLower().Substring(0,5) == "autwh")
             {
                 String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
-                if (extension == ".jpg" || extension == "jpeg")
+
+                switch (extension)
                 {
-                    //Chop the protocol off the front.
-                    String filepath = timeEvent.Link.Substring(4);
-                    imgPreview.Source = getImage(filepath);
-                }
-                else
-                {
-                    //What to do if it isnt an image
+                    case ".jpg":
+                    case "jpeg":
+                    case ".png":
+                    case ".bmp":
+                    case ".gif":
+                        //Chop the protocol off the front.
+                        String filepath = timeEvent.Link.Substring(4);
+                        imgPreview.Source = getImage(filepath);
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
@@ -93,12 +105,14 @@ namespace Insight
 
         private BitmapImage getImage(string filepath)
         {
-            filepath = Uri.UnescapeDataString(filepath);
+            //Image previews aren't critical, so fail silently if the image is not found, URI malformed etc
+            try
+            {
+            filepath = Uri.UnescapeDataString(Directory.GetCurrentDirectory()+"/datasets"+filepath);
 
             Uri uri = new Uri(filepath);
 
-            try
-            {
+            
                 BitmapImage image = new BitmapImage(uri);
                 return image;
             }
