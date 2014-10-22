@@ -73,6 +73,7 @@ namespace Insight
                 String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
                 if (extension == ".jpg" || extension == "jpeg")
                 {
+                    //Chop the protocol off the front.
                     String filepath = timeEvent.Link.Substring(4);
                     imgPreview.Source = getImage(filepath);
                 }
@@ -94,7 +95,7 @@ namespace Insight
         {
             filepath = Uri.UnescapeDataString(filepath);
 
-            Uri uri = new Uri(@"X:" + filepath);
+            Uri uri = new Uri(filepath);
 
             try
             {

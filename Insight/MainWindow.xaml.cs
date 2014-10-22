@@ -30,7 +30,7 @@ namespace Insight
             InitializeComponent();
 
             //Load in event data
-            //Error handler in case data file does not exist
+            //Error handler incase data file does not exist
 
             XDocument input = null;
 
@@ -57,6 +57,7 @@ namespace Insight
             chkEXIF.Click += refineTimeline;
             chkInstalledProgs.Click += refineTimeline;
             chkWebHistory.Click += refineTimeline;
+            chkFileTypeMismatch.Click += refineTimeline;
             dpMinDate.SelectedDateChanged += dpMinDate_SelectedDateChanged;
             dpMaxDate.SelectedDateChanged += dpMaxDate_SelectedDateChanged;
 
@@ -252,6 +253,10 @@ namespace Insight
                 return true;
             }
             else if (chkWebHistory.IsChecked == false && eventPrefix == "autwh")
+            {
+                return true;
+            }
+            else if (chkFileTypeMismatch.IsChecked == false && eventPrefix == "auttm")
             {
                 return true;
             }
