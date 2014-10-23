@@ -22,42 +22,53 @@ namespace Insight
     /// </summary>
     public partial class DetailWindow : Window
     {
+        String eventPrefix;
+        TimelineEvent currentEvent;
+
         public DetailWindow(TimelineEvent timeEvent)
         {
             InitializeComponent();
 
-            String eventType = timeEvent.Id;
+            currentEvent = timeEvent;
 
-            switch (eventType.ToLower().Substring(0, 5))
+            String eventType;
+            eventPrefix = timeEvent.Id.ToLower().Substring(0, 5);
+
+            switch (eventPrefix)
             {
                 case "autwh":
                     eventType = "Web History (Autopsy)";
                     break;
                 case "autad":
                     eventType = "Attached Device (Autopsy)";
+                    btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
                     break;
                 case "autip":
                     eventType = "Installed Program (Autopsy)";
+                    btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
                     break;
                 case "autex":
                     eventType = "EXIF Metadata (Autopsy)";
                     break;
                 case "auttm":
                     eventType = "File Type Mismatch";
+                    btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
                     break;
                 default:
                     eventType = "Unknown";
+                    btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
                     break;
             }
 
-            lblAccessed.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToShortTimeString());
+            lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToShortTimeString());
+            lblAccessed.Content = "Not Available";
             lblLink.Content = timeEvent.Link;
             lblEventType.Content = eventType;
 
             //Load preview image
-            if (timeEvent.Id.ToLower().Substring(0,5) == "autex")
+            if (eventPrefix == "autex")
             {
-                String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
+                String extension = timeEvent.Link.Substring(timeEvent.Link.Length - 4);
                 switch (extension)
                 {
                     case ".jpg":
@@ -74,9 +85,9 @@ namespace Insight
             }
 
             //Allow loading local images from web history events.
-            else if (timeEvent.Id.ToLower().Substring(0,5) == "autwh")
+            else if (eventPrefix == "autwh")
             {
-                String extension = timeEvent.Link.Substring(timeEvent.Link.Length-4);
+                String extension = timeEvent.Link.Substring(timeEvent.Link.Length - 4);
 
                 switch (extension)
                 {
@@ -101,6 +112,54 @@ namespace Insight
         private void OpenContent_Click(object sender, RoutedEventArgs e)
         {
 
+            switch (eventPrefix)
+            {
+                case "autwh":
+                    String url = currentEvent.Link;
+                    try
+                    {
+                        System.Diagnostics.Process.Start(url);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Sorry, this web page cannot be loaded. The URL may be malformatted.");
+                    }
+                    break;
+
+                case "autex":
+
+                    //Check that what we are opening is definitely an image
+                    String extension = currentEvent.Link.Substring(currentEvent.Link.Length - 4);
+                    switch (extension)
+                    {
+                        case ".jpg":
+                        case "jpeg":
+                        case ".png":
+                        case ".bmp":
+                        case ".gif":
+                            String filepath = currentEvent.Link;
+                            filepath = Uri.UnescapeDataString(Directory.GetCurrentDirectory() + "/datasets" + filepath);
+                            try
+                            {
+                                System.Diagnostics.Process.Start(filepath);
+                            }
+                            catch (Exception)
+                            {
+                                MessageBox.Show("Sorry, this image cannot be opened. The file might not exist.");
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+
         }
 
         private BitmapImage getImage(string filepath)
@@ -108,11 +167,11 @@ namespace Insight
             //Image previews aren't critical, so fail silently if the image is not found, URI malformed etc
             try
             {
-            filepath = Uri.UnescapeDataString(Directory.GetCurrentDirectory()+"/datasets"+filepath);
+                filepath = Uri.UnescapeDataString(Directory.GetCurrentDirectory() + "/datasets" + filepath);
 
-            Uri uri = new Uri(filepath);
+                Uri uri = new Uri(filepath);
 
-            
+
                 BitmapImage image = new BitmapImage(uri);
                 return image;
             }
@@ -121,11 +180,11 @@ namespace Insight
                 //If file not found, fail silently
                 return null;
             }
-            
 
-            
+
+
         }
-        
+
 
     }
 }

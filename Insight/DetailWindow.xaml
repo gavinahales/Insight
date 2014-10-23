@@ -18,14 +18,18 @@
                 <Label Content="File Name / URL:" FontWeight="Bold"/>
                 <Label Name="lblLink" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
+                <Label Content="Last Modified" FontWeight="Bold"/>
+                <Label Name="lblModified" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
+
+
                 <Label Content="Last Accessed:" FontWeight="Bold"/>
                 <Label Name="lblAccessed" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
+                <Label Content="Created:" FontWeight="Bold"/>
+                <Label Name="lblCreated" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
+
             </StackPanel>
 
-            <TextBlock>
-
-            </TextBlock>
         </Grid>
 
         <Grid Grid.Column="1">
@@ -40,9 +44,9 @@
             </Grid>
 
 
-            <Grid Grid.Row="1" Background="#FFCBF1FF">
+            <Grid Grid.Row="1" Background="WhiteSmoke">
                 <StackPanel>
-                    <Button x:Name="btnOpenContent" Content="Open File / Website" Height="30" Margin="10" Click="OpenContent_Click" />
+                    <Button x:Name="btnOpenContent" Content="Open" Height="30" Margin="10" Click="OpenContent_Click" />
                 </StackPanel>
             </Grid>
 
