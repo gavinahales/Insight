@@ -24,6 +24,8 @@ namespace Insight
     {
 
         private List<TimelineEvent> timelineEvents;
+        private List<TimelineEvent> customEvents;
+        private CustomEventWindow customEventWindowInstance;
 
         public MainWindow()
         {
@@ -42,6 +44,17 @@ namespace Insight
             {
                 MessageBox.Show("The dataset file could not be found. Please contact the developer.", "Dataset Missing", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
+            }
+
+            //Load custom events
+            try
+            {
+                //Deserialize custom event file
+                customEvents = new List<TimelineEvent>();
+            }
+            catch (Exception)
+            {
+
             }
 
             timeline.ResetEvents(input);
@@ -174,7 +187,18 @@ namespace Insight
 
         private void btnCustomEvents_Click(object sender, RoutedEventArgs e)
         {
+            if (customEventWindowInstance == null || !customEventWindowInstance.IsLoaded)
+            {
+                customEventWindowInstance = new CustomEventWindow(customEvents);
+                customEventWindowInstance.CustomEventsUpdated += customEventWindowInstance_CustomEventsUpdated;
+            }
+            customEventWindowInstance.Show();
+            customEventWindowInstance.Focus();
+        }
 
+        private void customEventWindowInstance_CustomEventsUpdated(object sender, CustomEventsUpdatedEventArgs e)
+        {
+            MessageBox.Show("Custom Events Updated. Code Incomplete!");
         }
 
         #endregion
@@ -274,7 +298,7 @@ namespace Insight
 
             foreach (TimelineEvent item in timelineEvents)
             {
-                if (item.StartDate < timeline.MinDateTime) { timeline.MinDateTime = item.StartDate; }
+                if (item.StartDate < timeline.MinDateTime) {timeline.MinDateTime = item.StartDate;}
                 if (item.StartDate > timeline.MaxDateTime) {timeline.MaxDateTime = item.StartDate;}
             }
 
