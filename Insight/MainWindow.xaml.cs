@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TimelineLibrary;
 using System.Xml.Linq;
+using System.Data.SQLite;
 
 namespace Insight
 {
@@ -26,6 +27,7 @@ namespace Insight
         private List<TimelineEvent> timelineEvents;
         private List<TimelineEvent> customEvents;
         private CustomEventWindow customEventWindowInstance;
+        public SQLiteConnection autopsyDBConnection;
 
         public MainWindow()
         {
@@ -51,6 +53,17 @@ namespace Insight
             {
                 //Deserialize custom event file
                 customEvents = new List<TimelineEvent>();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            //Make a connection to the autopsy DB
+            try
+            {
+                autopsyDBConnection = new SQLiteConnection("Data Source=" + "autopsy.db" + "; Version=3;");
+                autopsyDBConnection.Open();
             }
             catch (Exception)
             {

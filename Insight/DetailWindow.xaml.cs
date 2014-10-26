@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Drawing;
 using TimelineLibrary;
 using System.IO;
+using System.Data.SQLite;
 
 namespace Insight
 {
