@@ -26,7 +26,7 @@ namespace Insight
         String eventPrefix;
         TimelineEvent currentEvent;
 
-        public DetailWindow(TimelineEvent timeEvent)
+        public DetailWindow(TimelineEvent timeEvent, SQLiteConnection autopsyDBConnection)
         {
             InitializeComponent();
 
@@ -61,8 +61,32 @@ namespace Insight
                     break;
             }
 
-            lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToShortTimeString());
-            lblAccessed.Content = "Not Available";
+            lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToLongTimeString());
+
+            if (autopsyDBConnection != null)
+            {
+                String artifactID = timeEvent.Id.Substring(5);
+                SQLiteCommand timeQuery = new SQLiteCommand("SELECT atime, ctime FROM tsk_files WHERE obj_id = (SELECT obj_id FROM blackboard_artifacts WHERE artifact_ID = " + artifactID + ")",autopsyDBConnection);
+                SQLiteDataReader timeResult = timeQuery.ExecuteReader();
+                timeResult.Read();
+                String atime = timeResult.GetValue(0).ToString();
+                String ctime = timeResult.GetValue(1).ToString();
+                DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                DateTime convertedDate = epoch.AddSeconds(int.Parse(atime));
+                atime = convertedDate.ToShortDateString() + " " + convertedDate.ToLongTimeString();
+                lblAccessed.Content = atime;
+                convertedDate = epoch.AddSeconds(int.Parse(ctime));
+                ctime = convertedDate.ToShortDateString() + " " + convertedDate.ToLongTimeString();
+                lblCreated.Content = atime;
+            }
+            else
+            {
+                //No connection
+                lblAccessed.Content = "Not Available";
+                lblCreated.Content = "Not Available";
+            }
+
+            
             lblLink.Content = timeEvent.Link;
             lblEventType.Content = eventType;
 

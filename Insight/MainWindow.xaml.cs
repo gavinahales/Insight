@@ -67,7 +67,8 @@ namespace Insight
             }
             catch (Exception)
             {
-
+                //Make this line a little more informative.
+                MessageBox.Show("Woops. Autopsy DB could not be opened.");
             }
 
             timeline.ResetEvents(input);
@@ -136,7 +137,7 @@ namespace Insight
 
                 if (timeevent.Id != "")
                 {
-                    DetailWindow d = new DetailWindow(timeevent);
+                    DetailWindow d = new DetailWindow(timeevent,autopsyDBConnection);
                     d.Show();
                 }
             }

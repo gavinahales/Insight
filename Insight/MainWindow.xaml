@@ -97,7 +97,7 @@
                         <CheckBox
                             x:Name="chkFileTypeMismatch"
                             Content="File Type Mismatches"
-                            IsChecked="True" Background="#FFA40000"
+                            IsChecked="True" Background="#FFE20000"
                          />
 
 

@@ -20,9 +20,17 @@ namespace Insight
     /// </summary>
     public partial class CustomEventWindow : Window
     {
+        List<TimelineEvent> newEvents;
+        List<TimelineEvent> existingEvents;
+
         public CustomEventWindow(List<TimelineEvent> customEvents)
         {
             InitializeComponent();
+
+            newEvents = new List<TimelineEvent>();
+
+            //Remove this code when code to load from file is implemented.
+            existingEvents = new List<TimelineEvent>();
         }
 
         public event EventHandler<CustomEventsUpdatedEventArgs> CustomEventsUpdated;
@@ -38,12 +46,14 @@ namespace Insight
 
         private void btnAddNewEvent_Click(object sender, RoutedEventArgs e)
         {
-
+            int nextAvailableID = (existingEvents.Count + newEvents.Count) + 1;
         }
 
         private void btnSaveAndExit_Click(object sender, RoutedEventArgs e)
         {
             CustomEventsUpdatedEventArgs args = new CustomEventsUpdatedEventArgs();
+
+            //Change this to the actual list, rather than a blank one
             args.newEvents = new List<TimelineEvent>();
             OnCustomEventsUpdated(args);
         }
