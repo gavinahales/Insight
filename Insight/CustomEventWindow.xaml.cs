@@ -31,6 +31,7 @@ namespace Insight
 
             //Remove this code when code to load from file is implemented.
             existingEvents = new List<TimelineEvent>();
+
         }
 
         public event EventHandler<CustomEventsUpdatedEventArgs> CustomEventsUpdated;
@@ -47,6 +48,13 @@ namespace Insight
         private void btnAddNewEvent_Click(object sender, RoutedEventArgs e)
         {
             int nextAvailableID = (existingEvents.Count + newEvents.Count) + 1;
+            lblEventID.Content = "custm" + nextAvailableID.ToString();
+
+            chkHasEndDate.IsChecked = false;
+            txtDescription.Text = "";
+            txtURI.Text = "";
+
+
         }
 
         private void btnSaveAndExit_Click(object sender, RoutedEventArgs e)
