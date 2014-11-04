@@ -53,7 +53,8 @@ namespace Insight
             chkHasEndDate.IsChecked = false;
             txtDescription.Text = "";
             txtURI.Text = "";
-
+            dpStartDate.SelectedDate = null;
+            dpEndDate.SelectedDate = null;
 
         }
 
@@ -76,6 +77,56 @@ namespace Insight
         {
             dpEndDate.Visibility = System.Windows.Visibility.Collapsed;
             lblEndDate.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void btnSaveEvent_Click(object sender, RoutedEventArgs e)
+        {
+            bool infoOK = false;
+
+            //Check if all required information has been provided and set the infoOK boolean to reflect this.
+            if (dpStartDate.SelectedDate == null || txtDescription.HorizontalContentAlignment.ToString().Trim() == "")
+            {
+                infoOK = false;
+            }
+            else if (chkHasEndDate.IsChecked == true && dpEndDate.SelectedDate == null)
+            {
+                infoOK = false;
+            }
+            else
+            {
+                infoOK = true;
+            }
+
+            //If all required information is provided, save event. Otherwise, alert user and do nothing.
+            if (infoOK)
+            {
+                TimelineEvent newevent = new TimelineEvent();
+                newevent.Id = lblEventID.Content.ToString();
+                newevent.EventColor = "Blue";
+                newevent.Link = txtURI.Text;
+                newevent.StartDate = dpStartDate.SelectedDate.Value;
+
+                if (chkHasEndDate.IsChecked == true)
+                {
+                    newevent.EndDate = dpEndDate.SelectedDate.Value;
+                }
+
+
+                newEvents.Add(newevent);
+
+                lstCustomEvents.Items.Add(newevent.Id);
+
+                //******************
+                //Check if the event already exists in the custom events.
+                //If it does, replace it. If it doesn't, add it to newEvents.
+                //Check if the user wants to overwrite first!!!
+                //******************
+
+            }
+            else
+            {
+                MessageBox.Show("You have not filled in all required information for this event.", "Information Missing", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 

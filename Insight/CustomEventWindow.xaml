@@ -45,7 +45,7 @@
                      Visibility="Collapsed"
                 />
                 <Separator Margin="0,5,0,5"/>
-                <Button x:Name="btnSaveEvent" Height="30" Margin="10,10,10,10" Content="Save Event" />
+                <Button x:Name="btnSaveEvent" Height="30" Margin="10,10,10,10" Content="Save Event" Click="btnSaveEvent_Click" />
                 
                 
                 
