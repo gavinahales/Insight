@@ -111,6 +111,28 @@ namespace Insight
                     newevent.EndDate = dpEndDate.SelectedDate.Value;
                 }
 
+                bool eventExists = false;
+
+                foreach (TimelineEvent item in existingEvents)
+                {
+                    if (item.Id.ToString() == newevent.Id.ToString())
+                    {
+                        //Test code, this must be changed
+                        MessageBox.Show("This event already exists!");
+                        eventExists = true;
+                    }
+                }
+
+                foreach (TimelineEvent item in newEvents)
+                {
+                    if (item.Id.ToString() == newevent.Id.ToString())
+                    {
+                        //Test code, this must be changed
+                        MessageBox.Show("This event already exists!");
+                        eventExists = true;
+                    }
+                }
+
 
                 newEvents.Add(newevent);
 

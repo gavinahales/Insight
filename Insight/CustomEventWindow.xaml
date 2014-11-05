@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Insight.CustomEventWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Custom Events" Height="500" Width="700">
+        Title="Custom Events" Height="500" Width="700" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="129*"/>
