@@ -117,9 +117,14 @@ namespace Insight
                 {
                     if (item.Id.ToString() == newevent.Id.ToString())
                     {
-                        //Test code, this must be changed
-                        MessageBox.Show("This event already exists!");
                         eventExists = true;
+                        MessageBoxResult overwrite = MessageBox.Show("This event already exists, do you want to overwrite it?", "Overwrite Event?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (overwrite == MessageBoxResult.Yes)
+                        {
+                            existingEvents.Remove(item);
+                            newEvents.Add(newevent);
+                            break;
+                        }
                     }
                 }
 
@@ -127,22 +132,27 @@ namespace Insight
                 {
                     if (item.Id.ToString() == newevent.Id.ToString())
                     {
-                        //Test code, this must be changed
-                        MessageBox.Show("This event already exists!");
                         eventExists = true;
+                        MessageBoxResult overwrite = MessageBox.Show("This event already exists, do you want to overwrite it?", "Overwrite Event?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (overwrite == MessageBoxResult.Yes)
+                        {
+                            newEvents.Remove(item);
+                            newEvents.Add(newevent);
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Event was not saved.", "Overwrite Cancelled", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
                     }
                 }
 
+                if (!eventExists)
+                {
+                    newEvents.Add(newevent);
+                    lstCustomEvents.Items.Add(newevent.Id);
+                }
 
-                newEvents.Add(newevent);
-
-                lstCustomEvents.Items.Add(newevent.Id);
-
-                //******************
-                //Check if the event already exists in the custom events.
-                //If it does, replace it. If it doesn't, add it to newEvents.
-                //Check if the user wants to overwrite first!!!
-                //******************
 
             }
             else
