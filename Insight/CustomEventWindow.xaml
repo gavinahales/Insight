@@ -26,18 +26,18 @@
                 <Label x:Name="lblEventID" Content="none" />
                 <Separator Margin="0,5,0,5"/>
                 <Label Content="Description:" FontWeight="Bold"/>
-                <TextBox x:Name="txtDescription" Height="50" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                <TextBox x:Name="txtDescription" Height="50" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsEnabled="False"/>
                 <Separator Margin="0,5,0,5"/>
                 <Label Content="URI:" FontWeight="Bold"/>
-                <TextBox x:Name="txtURI"/>
+                <TextBox x:Name="txtURI" IsEnabled="False"/>
                 <Separator Margin="0,5,0,5"/>
                 <Label Content="Start Date:" FontWeight="Bold"/>
                 <DatePicker 
                     x:Name="dpStartDate" 
-                    FirstDayOfWeek="Monday"
+                    FirstDayOfWeek="Monday" IsEnabled="False"
                 />
                 <Separator Margin="0,5,0,5"/>
-                <CheckBox x:Name="chkHasEndDate" Content="This event has an end date." Checked="chkHasEndDate_Checked" Unchecked="chkHasEndDate_Unchecked"/>
+                <CheckBox x:Name="chkHasEndDate" Content="This event has an end date." Checked="chkHasEndDate_Checked" Unchecked="chkHasEndDate_Unchecked" IsEnabled="False"/>
                 <Label x:Name="lblEndDate" Content="End Date:" FontWeight="Bold"  Visibility="Collapsed"/>
                 <DatePicker 
                     x:Name="dpEndDate" 
