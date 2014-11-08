@@ -55,6 +55,10 @@ namespace Insight
                     eventType = "File Type Mismatch";
                     btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
                     break;
+                case "custm":
+                    eventType = "Custom Event";
+                    lblModified.Content = "Event Time:";
+                    break;
                 default:
                     eventType = "Unknown";
                     btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
@@ -63,7 +67,7 @@ namespace Insight
 
             lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToLongTimeString());
 
-            if (autopsyDBConnection != null)
+            if (autopsyDBConnection != null && eventPrefix != "custm")
             {
                 String artifactID = timeEvent.Id.Substring(5);
                 SQLiteCommand timeQuery = new SQLiteCommand("SELECT atime, ctime FROM tsk_files WHERE obj_id = (SELECT obj_id FROM blackboard_artifacts WHERE artifact_ID = " + artifactID + ")",autopsyDBConnection);

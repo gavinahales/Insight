@@ -15,7 +15,7 @@
                 <ListBox x:Name="lstCustomEvents" Height="300" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
                 <Button x:Name="btnAddNewEvent" Height="30" Margin="5" Content="Add New Event" Click="btnAddNewEvent_Click"/>
                 <Button x:Name="btnSaveAndExit" Height="30" Margin="5" Content="Save Changes &amp; Exit" Click="btnSaveAndExit_Click"/>
-                <Button x:Name="btnDiscardChanges" Height="30" Margin="5" Content="Discard Changes &amp; Exit"/>
+                <Button x:Name="btnDiscardChanges" Height="30" Margin="5" Content="Discard Changes &amp; Exit" Click="btnDiscardChanges_Click"/>
             </StackPanel>
 
         </Grid>
@@ -49,6 +49,7 @@
                 />
                 <Separator Margin="0,5,0,5"/>
                 <Button x:Name="btnSaveEvent" Height="30" Margin="10,10,10,10" Content="Save Event" Click="btnSaveEvent_Click" />
+                <Button x:Name="btnDeleteEvent" Height="30" Margin="10,0,10,10" Content="Delete Event" Click="btnDeleteEvent_Click" />
                 
                 
                 

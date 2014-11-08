@@ -33,16 +33,56 @@ namespace Insight
             newEvents = new List<TimelineEvent>();
 
             //Remove this code when code to load from file is implemented.
-            existingEvents = new List<TimelineEvent>();
+            if (File.Exists("customEvents.xml"))
+            {
+                existingEvents = SerializableEventHelper.loadCustomEventsFromXML(); ;
+            }
+            else
+            {
+                existingEvents = new List<TimelineEvent>();
+            }
 
             lstCustomEvents.SelectionChanged += lstCustomEvents_SelectionChanged;
+
+            foreach (TimelineEvent item in existingEvents)
+            {
+                lstCustomEvents.Items.Add(item.Id);
+            }
+
+            this.Closing += CustomEventWindow_Closing;
+
+
+        }
+
+        //If the user clicks the window's close button, check if they want to lose changes.
+        //If they do not want to, cancel the Closing event.
+        private void CustomEventWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to discard any changes and close this window?", "Discard Changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (confirm == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
 
         }
 
         void lstCustomEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Check if the selection has been nullified
+            if (lstCustomEvents.SelectedItem == null)
+            {
+                return;
+            }
+
             //Get the ID of the item currently selected in the event list
             String selectedID = lstCustomEvents.SelectedItem.ToString();
+
+            txtDescription.IsEnabled = true;
+            txtURI.IsEnabled = true;
+            dpStartDate.IsEnabled = true;
+            chkHasEndDate.IsEnabled = true;
+            txtTitle.IsEnabled = true;
 
             //Check if the item is an existing item, and then fill in it's details.
             foreach (TimelineEvent item in existingEvents)
@@ -55,7 +95,7 @@ namespace Insight
                     dpStartDate.SelectedDate = item.StartDate;
                     txtTitle.Text = item.Title;
 
-                    if (item.EndDate != null)
+                    if (item.IsDuration)
                     {
                         chkHasEndDate.IsChecked = true;
                         dpEndDate.SelectedDate = item.EndDate;
@@ -270,6 +310,60 @@ namespace Insight
                 MessageBox.Show("You have not filled in all required information for this event.", "Information Missing", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        private void btnDeleteEvent_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult confirmDelete = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (confirmDelete == MessageBoxResult.Yes)
+            {
+
+                foreach (TimelineEvent item in existingEvents)
+                {
+                    if (item.Id.ToString() == lstCustomEvents.SelectedItem.ToString())
+                    {
+                        existingEvents.Remove(item);
+                        lstCustomEvents.Items.Remove(lstCustomEvents.SelectedItem);
+
+                        txtDescription.IsEnabled = false;
+                        txtURI.IsEnabled = false;
+                        dpStartDate.IsEnabled = false;
+                        chkHasEndDate.IsEnabled = false;
+                        txtTitle.IsEnabled = false;
+                        chkHasEndDate.IsChecked = false;
+                        txtDescription.Text = "";
+                        txtTitle.Text = "";
+                        txtURI.Text = "";
+                        dpStartDate.SelectedDate = null;
+                        dpEndDate.SelectedDate = null;
+
+                        break;
+                    }
+                }
+
+                foreach (TimelineEvent item in newEvents)
+                {
+                    if (item.Id.ToString() == lstCustomEvents.SelectedItem.ToString())
+                    {
+                        newEvents.Remove(item);
+                        lstCustomEvents.Items.Remove(lstCustomEvents.SelectedItem);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void btnDiscardChanges_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to discard any changes and close this window?", "Discard Changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (confirm == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+
     }
 
 

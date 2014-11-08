@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using TimelineLibrary;
 using System.Xml.Linq;
 using System.Data.SQLite;
+using System.IO;
 
 namespace Insight
 {
@@ -52,11 +53,18 @@ namespace Insight
             try
             {
                 //Deserialize custom event file
-                customEvents = new List<TimelineEvent>();
+                if (File.Exists("customEvents.xml"))
+                {
+                    customEvents = SerializableEventHelper.loadCustomEventsFromXML();
+                }
+                else
+                {
+                    customEvents = new List<TimelineEvent>();
+                }
             }
             catch (Exception)
             {
-
+                MessageBox.Show("An error occured when loading the custom event file.", "Error Loading Custom Events", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
             //Make a connection to the autopsy DB
@@ -67,12 +75,17 @@ namespace Insight
             }
             catch (Exception)
             {
-                //Make this line a little more informative.
+                //TODO Make this line a little more informative.
                 MessageBox.Show("Woops. Autopsy DB could not be opened.");
             }
 
             timeline.ResetEvents(input);
             timelineEvents = timeline.TimelineEvents;
+
+            List<TimelineEvent> loadEvents = new List<TimelineEvent>();
+            loadEvents.AddRange(timelineEvents);
+            loadEvents.AddRange(customEvents);
+            timeline.ResetEvents(loadEvents);
 
             calculateDateRange();
             dpMinDate.SelectedDate = timeline.MinDateTime;
@@ -116,7 +129,7 @@ namespace Insight
 
 
         //!!! Probably not needed. Leads to duplicate event info boxes. Remove??
-        //Change to manually reload the XML file. Saves relaunching the application.
+        //TODO: Change to manually reload the XML file. Saves relaunching the application.
         private void btnTimelineReload_Click(object sender, RoutedEventArgs e)
         {
             timeline.Reload();
@@ -212,7 +225,10 @@ namespace Insight
 
         private void customEventWindowInstance_CustomEventsUpdated(object sender, CustomEventsUpdatedEventArgs e)
         {
+            //TODO: Implement event reloading when custom events are updated.
             MessageBox.Show("Custom Events Updated. Code Incomplete!");
+            customEvents = e.newEvents;
+            refineTimeline();
         }
 
         #endregion
@@ -254,6 +270,8 @@ namespace Insight
                     }
                 }
 
+                //Add in custom events after search
+                refineEvents.AddRange(customEvents);
                 timeline.ResetEvents(refineEvents);
             }
 
@@ -268,6 +286,8 @@ namespace Insight
                     }
                 }
 
+                //Add in custom events after search
+                refineEvents.AddRange(customEvents);
                 timeline.ResetEvents(refineEvents);
             }
 
