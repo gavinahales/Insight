@@ -25,6 +25,9 @@
                 <Label Content="Event ID (Automatically generated):" FontWeight="Bold"/>
                 <Label x:Name="lblEventID" Content="none" />
                 <Separator Margin="0,5,0,5"/>
+                <Label Content="Title:" FontWeight="Bold"/>
+                <TextBox x:Name="txtTitle" IsEnabled="False"/>
+                <Separator Margin="0,5,0,5"/>
                 <Label Content="Description:" FontWeight="Bold"/>
                 <TextBox x:Name="txtDescription" Height="50" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsEnabled="False"/>
                 <Separator Margin="0,5,0,5"/>

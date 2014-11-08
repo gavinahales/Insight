@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using TimelineLibrary;
 
 namespace Insight
@@ -52,6 +53,7 @@ namespace Insight
                     txtDescription.Text = item.Description;
                     txtURI.Text = item.Link;
                     dpStartDate.SelectedDate = item.StartDate;
+                    txtTitle.Text = item.Title;
 
                     if (item.EndDate != null)
                     {
@@ -77,6 +79,7 @@ namespace Insight
                     txtDescription.Text = item.Description;
                     txtURI.Text = item.Link;
                     dpStartDate.SelectedDate = item.StartDate;
+                    txtTitle.Text = item.Title;
 
                     //Check if the event has a Duration, and if so, load the end date.
                     if (item.IsDuration)
@@ -112,12 +115,14 @@ namespace Insight
             txtURI.IsEnabled = true;
             dpStartDate.IsEnabled = true;
             chkHasEndDate.IsEnabled = true;
+            txtTitle.IsEnabled = true;
 
             int nextAvailableID = (existingEvents.Count + newEvents.Count) + 1;
             lblEventID.Content = "custm" + nextAvailableID.ToString();
 
             chkHasEndDate.IsChecked = false;
             txtDescription.Text = "";
+            txtTitle.Text = "";
             txtURI.Text = "";
             dpStartDate.SelectedDate = null;
             dpEndDate.SelectedDate = null;
@@ -131,14 +136,14 @@ namespace Insight
             combinedEvents.AddRange(existingEvents);
             combinedEvents.AddRange(newEvents);
 
-            List<SerializableTimelineEvent> outputList = combinedEvents.ConvertAll<SerializableTimelineEvent>(new Converter<TimelineEvent,SerializableTimelineEvent>(convertToSerializable));
+            List<SerializableTimelineEvent> outputList = combinedEvents.ConvertAll<SerializableTimelineEvent>(new Converter<TimelineEvent,SerializableTimelineEvent>(SerializableEventHelper.convertToSerializable));
 
             try
             {
-                using (Stream stream = File.Open("customEvents.bin", FileMode.Create))
+                using (Stream stream = File.Open("customEvents.xml", FileMode.Create))
                 {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    bin.Serialize(stream, outputList);
+                    XmlSerializer xmls = new XmlSerializer(typeof(List<SerializableTimelineEvent>));
+                    xmls.Serialize(stream, outputList);
                 }
             }
             catch (IOException IOerr)
@@ -172,7 +177,7 @@ namespace Insight
             bool infoOK = false;
 
             //Check if all required information has been provided and set the infoOK boolean to reflect this.
-            if (dpStartDate.SelectedDate == null || txtDescription.Text.ToString().Trim() == "")
+            if (dpStartDate.SelectedDate == null || txtDescription.Text.ToString().Trim() == "" || txtTitle.Text.ToString().Trim() == "")
             {
                 infoOK = false;
             }
@@ -199,6 +204,7 @@ namespace Insight
                 newevent.EventColor = "Blue";
                 newevent.Link = txtURI.Text;
                 newevent.StartDate = dpStartDate.SelectedDate.Value;
+                newevent.Title = txtTitle.Text;
 
                 if (chkHasEndDate.IsChecked == true)
                 {
@@ -263,21 +269,6 @@ namespace Insight
             {
                 MessageBox.Show("You have not filled in all required information for this event.", "Information Missing", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        public SerializableTimelineEvent convertToSerializable(TimelineEvent timeEvent)
-        {
-            SerializableTimelineEvent newEvent = new SerializableTimelineEvent();
-
-            newEvent.Id = timeEvent.Id;
-            newEvent.EventColor = timeEvent.EventColor;
-            newEvent.Description = timeEvent.Description;
-            newEvent.StartDate = timeEvent.StartDate;
-            newEvent.EndDate = timeEvent.EndDate;
-            newEvent.IsDuration = timeEvent.IsDuration;
-            newEvent.Link = timeEvent.Link;
-
-            return newEvent;
         }
     }
 
