@@ -141,7 +141,7 @@
                 
                 <TextBlock
                     TextWrapping="Wrap"
-                    Margin="5,0,5,0">Please Note: Custom events will always be displayed regardless of current search settings.</TextBlock>
+                    Margin="5,0,5,0">Please Note: Custom events will always be displayed regardless of current search settings. Custom events are shown in blue.</TextBlock>
 
             </StackPanel>
 
