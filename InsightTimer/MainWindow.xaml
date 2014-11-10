@@ -1,0 +1,15 @@
+﻿<Window x:Class="InsightTimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="InsightTimer" Height="250" Width="350" ResizeMode="CanMinimize">
+    <Grid>
+        <StackPanel>
+            <TextBlock x:Name="lblStatus" Text="Testing connectivity. Please wait..." Margin="5" Height="50" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            <Separator />
+            <Label Content="Participant ID:" />
+            <TextBox x:Name="txtParticipantID" Margin="5" />
+            <Button x:Name="btnStart" Content="Start Experiment" Height="30" Margin="5" />
+            <Button x:Name="btnStop" Content="End Experiment" Height="30" Margin="5" IsEnabled="False" />
+        </StackPanel>
+    </Grid>
+</Window>
