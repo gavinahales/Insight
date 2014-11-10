@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GuerrillaNtp;
+using MySql.Data.MySqlClient;
 
 namespace InsightTimer
 {
@@ -22,6 +23,7 @@ namespace InsightTimer
     public partial class MainWindow : Window
     {
         public const string NTP_SERVER = "0.uk.pool.ntp.org";
+        public const string MYSQL_SERVER = "178.62.25.124";
 
         public MainWindow()
         {
@@ -29,9 +31,10 @@ namespace InsightTimer
 
             //this.Closing += MainWindow_Closing;
             this.Loaded += MainWindow_Loaded;
+            this.ContentRendered +=MainWindow_ContentRendered;
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
             bool connected = TestConnectivity();
 
@@ -39,6 +42,11 @@ namespace InsightTimer
             {
                 lblStatus.Text = "Please enter your Participant ID, and start the experiment when ready.";
             }
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -52,7 +60,7 @@ namespace InsightTimer
             try
             {
                 GuerrillaNtp.NtpClient ntpclient = new NtpClient(NTP_SERVER);
-                ntpclient.Timeout = TimeSpan.FromSeconds(5);
+                ntpclient.Timeout = TimeSpan.FromSeconds(4);
                 NtpPacket response = ntpclient.Query();
                 DateTime time = (DateTime)response.ReceiveTimestamp;
                 //MessageBox.Show(time.ToLongDateString() + " " + time.ToLongTimeString());
@@ -60,6 +68,19 @@ namespace InsightTimer
             catch (Exception e)
             {
                 lblStatus.Text = "Connection tests FAILED. NTP Error:\n" + e.Message;
+                MessageBox.Show("Connection tests have failed. Please alert Gavin.", "Connection Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+                //return false;
+            }
+
+            try
+            {
+                MySqlConnection mysqlconn = new MySqlConnection("Server=" + MYSQL_SERVER + ";Database=test;Uid=resulter;PASSWORD=insightexternal4501;");
+                mysqlconn.Open();
+
+            }
+            catch (Exception e)
+            {
+                lblStatus.Text = "Connection tests FAILED. MySQL Error:\n" + e.Message;
                 MessageBox.Show("Connection tests have failed. Please alert Gavin.", "Connection Failure", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }

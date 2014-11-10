@@ -4,7 +4,9 @@
         Title="InsightTimer" Height="250" Width="350" ResizeMode="CanMinimize">
     <Grid>
         <StackPanel>
-            <TextBlock x:Name="lblStatus" Text="Testing connectivity. Please wait..." Margin="5" Height="50" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5" Height="50">
+                <TextBlock x:Name="lblStatus" Text="Testing connectivity. Please wait..." MinHeight="50" TextWrapping="Wrap" />
+            </ScrollViewer>
             <Separator />
             <Label Content="Participant ID:" />
             <TextBox x:Name="txtParticipantID" Margin="5" />
