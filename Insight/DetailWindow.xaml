@@ -9,26 +9,43 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Background="WhiteSmoke">
-
-            <StackPanel>
-
-                <Label Content="Event Type:" FontWeight="Bold"/>
-                <Label Name="lblEventType" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
-
-                <Label Content="File Name / URL:" FontWeight="Bold"/>
-                <Label Name="lblLink" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
-
-                <Label Name="lblModifiedTitle" Content="Last Modified:" FontWeight="Bold"/>
-                <Label Name="lblModified" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <StackPanel>
 
 
-                <Label Name="lblAccessedTitle" Content="Last Accessed:" FontWeight="Bold"/>
-                <Label Name="lblAccessed" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
-                <Label Name="lblCreatedTitle" Content="Created:" FontWeight="Bold"/>
-                <Label Name="lblCreated" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
+                    <Label Content="Event Type:" FontWeight="Bold"/>
+                    <Label Name="lblEventType" Content="none"/>
 
-            </StackPanel>
+                    <Separator/>
+
+                    <Label Content="File Name / URL:" FontWeight="Bold"/>
+                    <TextBlock Name="lblLink" Margin="5,0,3,0" MinHeight="15" TextWrapping="Wrap"/>
+
+                    <Separator/>
+                    
+                    <Label Content="Description:" FontWeight="Bold"/>
+                    <TextBlock Name="lblDescription" Margin="5,0,3,0" MinHeight="15" TextWrapping="Wrap"/>
+                    
+                    <Separator/>
+
+                    <Label Name="lblModifiedTitle" Content="Last Modified:" FontWeight="Bold"/>
+                    <Label Name="lblModified" Content="none"/>
+
+                    <Separator/>
+
+                    <Label Name="lblAccessedTitle" Content="Last Accessed:" FontWeight="Bold"/>
+                    <Label Name="lblAccessed" Content="none"/>
+
+                    <Separator/>
+
+                    <Label Name="lblCreatedTitle" Content="Created:" FontWeight="Bold"/>
+                    <Label Name="lblCreated" Content="none"/>
+
+                    <Separator/>
+
+                </StackPanel>
+            </ScrollViewer>
 
         </Grid>
 

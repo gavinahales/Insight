@@ -31,7 +31,7 @@ namespace InsightTimer
 
             //this.Closing += MainWindow_Closing;
             this.Loaded += MainWindow_Loaded;
-            this.ContentRendered +=MainWindow_ContentRendered;
+            this.ContentRendered += MainWindow_ContentRendered;
         }
 
         private void MainWindow_ContentRendered(object sender, EventArgs e)

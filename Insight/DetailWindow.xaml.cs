@@ -70,9 +70,15 @@ namespace Insight
                     break;
             }
 
-            lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToLongTimeString());
+            if (eventPrefix == "autwh")
+            {
+                lblModifiedTitle.Content = "Accessed:";
+            }
 
-            if (autopsyDBConnection != null && eventPrefix != "custm" && eventPrefix != "autip")
+            lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToLongTimeString());
+            lblDescription.Text = currentEvent.Description;
+
+            if (autopsyDBConnection != null && eventPrefix != "custm" && eventPrefix != "autip" && eventPrefix != "autwh")
             {
                 String artifactID = timeEvent.Id.Substring(5);
                 SQLiteCommand timeQuery = new SQLiteCommand("SELECT atime, ctime FROM tsk_files WHERE obj_id = (SELECT obj_id FROM blackboard_artifacts WHERE artifact_ID = " + artifactID + ")",autopsyDBConnection);
@@ -91,12 +97,15 @@ namespace Insight
             else
             {
                 //No connection
-                lblAccessed.Content = "Not Available";
-                lblCreated.Content = "Not Available";
+
+                lblAccessed.Visibility = System.Windows.Visibility.Collapsed;
+                lblCreated.Visibility = System.Windows.Visibility.Collapsed;
+                lblCreatedTitle.Visibility = System.Windows.Visibility.Collapsed;
+                lblAccessedTitle.Visibility = System.Windows.Visibility.Collapsed;
             }
 
             
-            lblLink.Content = timeEvent.Link;
+            lblLink.Text = timeEvent.Link;
             lblEventType.Content = eventType;
 
             //Load preview image
