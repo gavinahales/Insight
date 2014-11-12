@@ -18,14 +18,14 @@
                 <Label Content="File Name / URL:" FontWeight="Bold"/>
                 <Label Name="lblLink" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
-                <Label Content="Last Modified" FontWeight="Bold"/>
+                <Label Name="lblModifiedTitle" Content="Last Modified:" FontWeight="Bold"/>
                 <Label Name="lblModified" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
 
-                <Label Content="Last Accessed:" FontWeight="Bold"/>
+                <Label Name="lblAccessedTitle" Content="Last Accessed:" FontWeight="Bold"/>
                 <Label Name="lblAccessed" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
-                <Label Content="Created:" FontWeight="Bold"/>
+                <Label Name="lblCreatedTitle" Content="Created:" FontWeight="Bold"/>
                 <Label Name="lblCreated" Content="none" BorderThickness="0,0,0,1" BorderBrush="Black"/>
 
             </StackPanel>

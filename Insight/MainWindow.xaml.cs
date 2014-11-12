@@ -29,6 +29,7 @@ namespace Insight
         private List<TimelineEvent> customEvents;
         private CustomEventWindow customEventWindowInstance;
         public SQLiteConnection autopsyDBConnection;
+        private int zoomLevel;
 
         public MainWindow()
         {
@@ -101,7 +102,7 @@ namespace Insight
             dpMinDate.SelectedDateChanged += dpMinDate_SelectedDateChanged;
             dpMaxDate.SelectedDateChanged += dpMaxDate_SelectedDateChanged;
 
-            
+            zoomLevel = 0;
 
         }
 
@@ -114,17 +115,33 @@ namespace Insight
         private void btnTimelineZoomIn_Click(object sender, RoutedEventArgs e)
         {
             timeline.Zoom(true);
-
+            zoomLevel++;
         }
 
         private void btnTimelineZoomOut_Click(object sender, RoutedEventArgs e)
         {
             timeline.Zoom(false);
+            zoomLevel--;
         }
 
         private void btnTimelineZoomReset_Click(object sender, RoutedEventArgs e)
         {
-            timeline.RefreshEvents();
+            if (zoomLevel > 0)
+            {
+                for (int i = 0; i < zoomLevel; i++)
+                {
+                    timeline.Zoom(false);
+                }
+                zoomLevel = 0;
+            }
+            else if (zoomLevel < 0)
+            {
+                for (int i = 0; i > zoomLevel; i--)
+                {
+                    timeline.Zoom(true);
+                }
+                zoomLevel = 0;
+            }
         }
 
 
@@ -163,10 +180,12 @@ namespace Insight
             {
                 case SystemGesture.TwoFingerTap:
                     timeline.Zoom(true);
+                    zoomLevel++;
                     break;
 
                 case SystemGesture.Flick:
                     timeline.Zoom(false);
+                    zoomLevel--;
                     break;
             }
         }

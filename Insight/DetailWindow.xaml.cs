@@ -47,6 +47,11 @@ namespace Insight
                 case "autip":
                     eventType = "Installed Program (Autopsy)";
                     btnOpenContent.Visibility = System.Windows.Visibility.Hidden;
+                    lblAccessedTitle.Visibility = System.Windows.Visibility.Collapsed;
+                    lblCreatedTitle.Visibility = System.Windows.Visibility.Collapsed;
+                    lblAccessed.Visibility = System.Windows.Visibility.Collapsed;
+                    lblCreated.Visibility = System.Windows.Visibility.Collapsed;
+                    lblModifiedTitle.Content = "Installed On:";
                     break;
                 case "autex":
                     eventType = "EXIF Metadata (Autopsy)";
@@ -57,7 +62,7 @@ namespace Insight
                     break;
                 case "custm":
                     eventType = "Custom Event";
-                    lblModified.Content = "Event Time:";
+                    lblModifiedTitle.Content = "Event Time:";
                     break;
                 default:
                     eventType = "Unknown";
@@ -67,7 +72,7 @@ namespace Insight
 
             lblModified.Content = (String)(timeEvent.StartDate.ToShortDateString() + " " + timeEvent.StartDate.ToLongTimeString());
 
-            if (autopsyDBConnection != null && eventPrefix != "custm")
+            if (autopsyDBConnection != null && eventPrefix != "custm" && eventPrefix != "autip")
             {
                 String artifactID = timeEvent.Id.Substring(5);
                 SQLiteCommand timeQuery = new SQLiteCommand("SELECT atime, ctime FROM tsk_files WHERE obj_id = (SELECT obj_id FROM blackboard_artifacts WHERE artifact_ID = " + artifactID + ")",autopsyDBConnection);
