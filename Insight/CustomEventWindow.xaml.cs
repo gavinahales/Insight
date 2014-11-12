@@ -197,6 +197,8 @@ namespace Insight
             args.newEvents = combinedEvents;
             OnCustomEventsUpdated(args);
 
+
+            this.Closing -= CustomEventWindow_Closing;
             this.Close();
         }
 

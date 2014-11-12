@@ -225,8 +225,6 @@ namespace Insight
 
         private void customEventWindowInstance_CustomEventsUpdated(object sender, CustomEventsUpdatedEventArgs e)
         {
-            //TODO: Implement event reloading when custom events are updated.
-            MessageBox.Show("Custom Events Updated. Code Incomplete!");
             customEvents = e.newEvents;
             refineTimeline();
         }
