@@ -10,8 +10,8 @@
             <Separator />
             <Label Content="Participant ID:" />
             <TextBox x:Name="txtParticipantID" Margin="5" />
-            <Button x:Name="btnStart" Content="Start Experiment" Height="30" Margin="5" />
-            <Button x:Name="btnStop" Content="End Experiment" Height="30" Margin="5" IsEnabled="False" />
+            <Button x:Name="btnStart" Content="Start Experiment" Height="30" Margin="5" Click="btnStart_Click" />
+            <Button x:Name="btnStop" Content="End Experiment" Height="30" Margin="5" IsEnabled="False" Click="btnStop_Click" />
         </StackPanel>
     </Grid>
 </Window>
