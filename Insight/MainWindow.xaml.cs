@@ -46,7 +46,7 @@ namespace Insight
             }
             catch (System.IO.FileNotFoundException)
             {
-                MessageBox.Show("The dataset file could not be found. Please contact the developer.", "Dataset Missing", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The dataset file could not be found. An insight.xml file must be located in the same directory as the EXE file.", "Dataset Missing", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
 
