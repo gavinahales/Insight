@@ -11,6 +11,8 @@ It is no longer actively developed, and the code provided is presented 'as-is'. 
 The thesis which relates to this project can be found here:
 https://repository.abertay.ac.uk/jspui/handle/10373/2413
 
+*Note regarding InsightTimer code: This code was left over from an experiement which was conducted. It can be ignored or deleted. Any references to servers etc have been invalid for over 2 years.*
+
 Requirements
 ------------
 
